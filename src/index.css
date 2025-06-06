@@ -1,0 +1,106 @@
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("assets/fonts/PlusJakartaSans-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@import "tailwindcss";
+
+@theme {
+  --color-lime: #d8db2f;
+  --color-transparent-lime: #d8db2f26;
+  --color-lime-hover: #d8db2f80;
+  --color-slate-900: #133041;
+  --color-slate-700: #4e6e7e;
+  --color-slate-500: #6b94a8;
+  --color-slate-300: #9abed5;
+  --color-slate-100: #e4f4fd;
+  --color-c-red: #d73328;
+  --color-hr: #9abed540;
+
+  --font-plus-jakarta-sans: "Plus Jakarta Sans", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-100 font-plus-jakarta-sans;
+  }
+
+  h1 {
+    @apply text-slate-900 text-2xl font-bold leading-[125%];
+  }
+
+  h2 {
+    @apply text-2xl font-bold leading-[125%];
+  }
+
+  h3 {
+    @apply text-base text-slate-300 font-medium leading-[150%];
+  }
+
+  a {
+    @apply text-slate-700 underline font-medium text-base leading-[150%] transition;
+  }
+
+  p {
+    @apply text-slate-300 text-base font-medium leading-[150%];
+  }
+
+  legend {
+    @apply text-slate-700 text-base font-medium leading-[150%];
+  }
+
+  label {
+    @apply text-slate-700 text-[1.125rem] font-bold;
+  }
+
+  input {
+    @apply text-slate-900 text-[1.125rem] font-bold leading-[125%] outline-0 border border-slate-500 rounded-[4px] h-[48px] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none;
+  }
+
+  input[type="radio"] {
+    @apply relative appearance-none border-[2px] border-slate-700 size-[20px] rounded-full checked:border-lime cursor-pointer;
+  }
+
+  input[type="radio"]:checked:before {
+    @apply content-[''] absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] size-[11px] rounded-full bg-lime;
+  }
+
+  input[type="number"]:focus {
+    @apply !border-lime transition;
+  }
+
+  input[type="number"]:focus + label {
+    @apply !bg-lime;
+  }
+
+  input[type="number"]:hover {
+    @apply border-black;
+  }
+
+  div:has(> input[type="radio"]:checked:first-child) {
+    @apply bg-transparent-lime border !border-lime;
+  }
+
+  button {
+    @apply text-slate-900 text-[1.125rem] font-bold leading-[125%] cursor-pointer;
+  }
+
+  .center-both {
+    @apply flex justify-center items-center;
+  }
+
+  .error-msg {
+    @apply text-c-red text-[0.875rem] font-medium leading-[150%];
+  }
+
+  .error-input {
+    @apply border-c-red;
+  }
+
+  .error-label {
+    @apply text-white !bg-c-red;
+  }
+}
