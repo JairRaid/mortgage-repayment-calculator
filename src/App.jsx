@@ -269,7 +269,10 @@ function App() {
                 this field is required
               </span>
             </fieldset>
-            <button className="flex center-both gap-x-[12px] bg-lime w-full h-[56px] rounded-full transition hover:bg-lime-hover mb-8 md:max-w-[314px] lg:mb-0 md:mb-[40px] ">
+            <button
+              type="submit"
+              className="flex center-both gap-x-[12px] bg-lime w-full h-[56px] rounded-full transition hover:bg-lime-hover mb-8 md:max-w-[314px] lg:mb-0 md:mb-[40px] "
+            >
               <img
                 src="assets/images/icon-calculator.svg"
                 alt="calculator icon"
