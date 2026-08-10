@@ -291,7 +291,7 @@ const App = () => {
 
           {results && (
             <div className="results-calculated">
-              <h2 id="results-calculated-title">Your results</h2>
+              <h2 id="results-title">Your results</h2>
 
               <p>
                 Your results are shown below based on the information you
