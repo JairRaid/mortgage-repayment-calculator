@@ -119,6 +119,7 @@ const App = () => {
                   min="0"
                   step="0.01"
                   autoComplete="off"
+                  aria-invalid={errors.mortgage_amount}
                   aria-describedby="mortgage-amount-error"
                   value={formData.mortgage_amount}
                   onChange={(e) => handleChange(e, "mortgage_amount")}
@@ -149,6 +150,7 @@ const App = () => {
                     min="1"
                     step="1"
                     autoComplete="off"
+                    aria-invalid={errors.mortgage_term}
                     aria-describedby="mortgage-term-error"
                     value={formData.mortgage_term}
                     onChange={(e) => handleChange(e, "mortgage_term")}
