@@ -106,9 +106,7 @@ const App = () => {
               <label htmlFor="mortgage-amount">Mortgage Amount</label>
 
               <div className="input-wrapper">
-                <span className="input-prefix" aria-hidden="true">
-                  £
-                </span>
+                <span className="input-prefix">£</span>
 
                 <input
                   id="mortgage-amount"
@@ -157,9 +155,7 @@ const App = () => {
                     onBlur={() => handleBlur("mortgage_term")}
                   />
 
-                  <span className="input-suffix" aria-hidden="true">
-                    years
-                  </span>
+                  <span className="input-suffix">years</span>
                 </div>
 
                 <p
@@ -191,9 +187,7 @@ const App = () => {
                     onBlur={() => handleBlur("interest_rate")}
                   />
 
-                  <span className="input-suffix" aria-hidden="true">
-                    %
-                  </span>
+                  <span className="input-suffix">%</span>
                 </div>
 
                 <p
