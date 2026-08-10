@@ -10,5 +10,5 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/setupTests.js",
   },
-  base: /mortgage-repayment-calculator/,
+  base: "/mortgage-repayment-calculator/",
 });

@@ -2,22 +2,7 @@ import { useReducer } from "react";
 import "./App.css";
 import { calculateRepayments } from "./utils/calculateRepayment";
 import { validateFormData } from "./utils/validate";
-
-const initialData = {
-  formData: {
-    mortgage_amount: "",
-    mortgage_term: "",
-    interest_rate: "",
-    mortgage_type: "",
-  },
-  errors: {
-    mortgage_amount: false,
-    mortgage_term: false,
-    interest_rate: false,
-    mortgage_type: false,
-  },
-  results: null,
-};
+import { initialFormData } from "./data/initialData";
 
 const formReducer = (state, action) => {
   const { formData } = state;
@@ -63,14 +48,14 @@ const formReducer = (state, action) => {
   }
 
   if (type === "RESET") {
-    return initialData;
+    return initialFormData;
   }
 
   return state;
 };
 
 const App = () => {
-  const [data, dispatch] = useReducer(formReducer, initialData);
+  const [data, dispatch] = useReducer(formReducer, initialFormData);
   const { formData, errors, results } = data;
 
   const handleSubmit = (e) => {
