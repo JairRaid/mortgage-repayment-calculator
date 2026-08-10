@@ -184,6 +184,7 @@ const App = () => {
                     min="0"
                     step="0.01"
                     autoComplete="off"
+                    aria-invalid={errors.interest_rate}
                     aria-describedby="interest-rate-error"
                     value={formData.interest_rate}
                     onChange={(e) => handleChange(e, "interest_rate")}
