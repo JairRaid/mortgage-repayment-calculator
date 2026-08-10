@@ -112,7 +112,7 @@ const App = () => {
 
                 <input
                   id="mortgage-amount"
-                  className={`${errors.mortgage_amount ? "input-error" : ""}`}
+                  className={`${errors.mortgage_amount ? "mortgage-amount input-error" : "mortgage-amount"}`}
                   name="mortgageAmount"
                   type="number"
                   inputMode="decimal"
@@ -142,7 +142,7 @@ const App = () => {
                 <div className="input-wrapper">
                   <input
                     id="mortgage-term"
-                    className={`${errors.mortgage_term ? "input-error" : ""}`}
+                    className={`${errors.mortgage_term ? "mortgage-term input-error" : "mortgage-term"}`}
                     name="mortgageTerm"
                     type="number"
                     inputMode="numeric"
@@ -175,7 +175,7 @@ const App = () => {
                 <div className="input-wrapper">
                   <input
                     id="interest-rate"
-                    className={`${errors.interest_rate ? "input-error" : ""}`}
+                    className={`${errors.interest_rate ? "interest-rate input-error" : "interest-rate"}`}
                     name="interestRate"
                     type="number"
                     inputMode="decimal"

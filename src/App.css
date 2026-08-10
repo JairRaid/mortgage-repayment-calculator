@@ -33,13 +33,13 @@
 .input-wrapper {
   @apply relative mt-12;
 }
-#mortgage-amount {
+.mortgage-amount {
   @apply pl-[calc(2.75rem+1rem)];
 }
-#mortgage-term {
+.mortgage-term {
   @apply pr-[calc(5rem+1rem)];
 }
-#interest-rate {
+.interest-rate {
   @apply pr-[calc(3.1875rem+1rem)];
 }
 .input-prefix,
