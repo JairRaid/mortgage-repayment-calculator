@@ -3,7 +3,6 @@ import "./App.css";
 import { calculateRepayments } from "./utils/calculateRepayment";
 import { validateFormData } from "./utils/validate";
 import { initialFormData } from "./data/initialData";
-import { input } from "@testing-library/user-event/dist/cjs/event/input.js";
 
 const formReducer = (state, action) => {
   const { formData } = state;
