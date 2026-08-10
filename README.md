@@ -31,7 +31,7 @@ Your users should be able to:
 
 ### Links
 
-- Solution URL:
+- Solution URL: https://github.com/JairRaid/mortgage-repayment-calculator
 - Live Site URL:
 
 ## My process
