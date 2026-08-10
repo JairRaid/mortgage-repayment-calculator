@@ -27,7 +27,6 @@ const formReducer = (state, action) => {
 
   if (type === "SUBMIT") {
     if (validateFormData(formData)) {
-      // setResults(calculateRepayments(formData));
       const nextState = { ...state };
       nextState.results = calculateRepayments(formData);
       return nextState;
