@@ -3,6 +3,7 @@ import "./App.css";
 import { calculateRepayments } from "./utils/calculateRepayment";
 import { validateFormData } from "./utils/validate";
 import { initialFormData } from "./data/initialData";
+import { input } from "@testing-library/user-event/dist/cjs/event/input.js";
 
 const formReducer = (state, action) => {
   const { formData } = state;
@@ -18,11 +19,16 @@ const formReducer = (state, action) => {
   }
 
   if (type === "SET_ERRORS") {
-    const nextState = { ...state };
-    if (nextState.formData[payload.key] === "")
-      nextState.errors[payload.key] = true;
-    else nextState.errors[payload.key] = false;
-    return nextState;
+    if (state.formData[payload.key] === "")
+      return {
+        ...state,
+        errors: { ...state.errors, [payload.key]: true },
+      };
+    else
+      return {
+        ...state,
+        errors: { ...state.errors, [payload.key]: false },
+      };
   }
 
   if (type === "SUBMIT") {
@@ -47,7 +53,7 @@ const formReducer = (state, action) => {
   }
 
   if (type === "RESET") {
-    return initialFormData;
+    return { ...initialFormData };
   }
 
   return state;
