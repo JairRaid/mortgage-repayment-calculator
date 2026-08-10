@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-lime: #d8db2f;
+  --color-transparent-lime: #d8db2f26;
+  --color-lime-hover: #d8db2f80;
+  --color-slate-900: #133041;
+  --color-slate-700: #4e6e7e;
+  --color-slate-500: #6b94a8;
+  --color-slate-300: #9abed5;
+  --color-slate-100: #e4f4fd;
+  --color-red: #d73328;
+  --color-hr: #9abed540;
+
+  /* Typography */
+  --font-jakarta:
+    "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI",
+    BlinkMacSystemFont, sans-serif;
+
+  --text-56: 3.5rem;
+  --text-24: 1.5rem;
+  --text-18: 1.125rem;
+  --text-16: 1rem;
+  --text-14: 0.875rem;
+  --text-40: 2.5rem;
+
+  --leading-125: 1.25;
+  --leading-150: 1.5;
+
+  --tracking-0: 0;
+  --tracking-1: 0.0625rem;
+
+  /* Spacing */
+  --spacing-40: 2.5rem;
+  --spacing-32: 2rem;
+  --spacing-24: 1.5rem;
+  --spacing-16: 1rem;
+  --spacing-12: 0.75rem;
+  --spacing-8: 0.5rem;
+
+  /* Radius */
+  --radius-4: 0.25rem;
+  --radius-8: 0.5rem;
+  --radius-24: 1.5rem;
+  --radius-80: 5rem;
+
+  /* Shadow */
+  --shadow-card: 0 2rem 4rem #133041;
+
+  /* Breakpoint */
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-100 font-jakarta;
+  }
+  .page-shell {
+    @apply lg:min-h-dvh lg:w-full lg:flex lg:justify-center lg:items-center;
+  }
+  h1 {
+    @apply font-bold text-24 leading-125 text-slate-900;
+  }
+  label {
+    @apply font-medium;
+  }
+  button {
+    @apply cursor-pointer;
+  }
+  input[type="number"] {
+    @apply font-bold text-18 leading-125 text-slate-900
+    relative z-10 border border-slate-500 rounded-4
+    px-16 w-full h-[2.75rem];
+  }
+  input[type="radio"] {
+    @apply appearance-none size-[1.2188rem] border-2 border-slate-700 rounded-full my-transition
+    relative checked:border-lime;
+  }
+  input[type="radio"]::before {
+    @apply my-transition;
+  }
+  input[type="radio"]:checked::before {
+    @apply content-[""] bg-lime
+    absolute top-1/2 left-1/2 -translate-1/2 size-[.6875rem] rounded-full;
+  }
+  input[type="radio"] + label {
+    @apply font-bold text-18 leading-125 text-slate-900;
+  }
+  input[type="number"]:hover {
+    @apply border-slate-900;
+  }
+  input[type="number"]:focus {
+    @apply outline-none border-lime;
+  }
+  input[type="number"]:focus {
+    @apply outline-none border-lime;
+  }
+}
+
+@utility my-transition {
+  @apply transition-all duration-200;
+}

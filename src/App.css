@@ -1,0 +1,149 @@
+@reference "./index.css";
+
+.mortgage-calculator {
+  @apply md:m-40;
+}
+.calculator-card {
+  @apply lg:grid lg:grid-cols-2 md:rounded-24 md:overflow-hidden md:shadow-card/10
+  lg:bg-white lg:max-w-[63.125rem];
+}
+
+/* Calculator form */
+.calculator-form-wrapper {
+  @apply bg-white px-24 py-32
+  md:p-40;
+}
+.calculator-header {
+  @apply flex flex-col items-start gap-y-8
+  md:flex-row md:items-center md:justify-between;
+}
+.clear-button {
+  @apply font-medium underline text-slate-700;
+}
+
+.mortgage-form {
+  @apply flex flex-col text-slate-700 mt-24
+  md:mt-40;
+}
+.form-row {
+  @apply flex flex-col gap-y-24
+  mt-24
+  md:flex-row md:gap-x-24;
+}
+.input-wrapper {
+  @apply relative mt-12;
+}
+#mortgage-amount {
+  @apply pl-[calc(2.75rem+1rem)];
+}
+#mortgage-term {
+  @apply pr-[calc(5rem+1rem)];
+}
+#interest-rate {
+  @apply pr-[calc(3.1875rem+1rem)];
+}
+.input-prefix,
+.input-suffix {
+  @apply absolute bg-slate-100 font-bold text-18 leading-125 my-transition;
+}
+.input-prefix {
+  @apply top-0 left-0 
+  inline-flex justify-center items-center
+  px-16 h-full rounded-tl-4 rounded-bl-4;
+}
+.input-suffix {
+  @apply top-0 right-0 
+  inline-flex justify-center items-center
+  px-16 h-full rounded-tr-4 rounded-br-4;
+}
+.mortgage-type {
+  @apply mt-24;
+}
+.radio-option {
+  @apply flex items-center gap-x-16 my-transition
+  border border-slate-500 rounded-4
+  mt-12 px-16 h-[3.125rem];
+}
+.radio-option:has(input[type="radio"]:checked) {
+  @apply bg-lime/15 border-lime;
+}
+.radio-option:hover {
+  @apply border-lime;
+}
+.calculate-button {
+  @apply font-bold text-18 leading-125 text-slate-900 bg-lime my-transition
+  flex justify-center items-center gap-x-12 rounded-full
+  h-[3.5rem] mt-24
+  md:w-1/2 md:mt-40
+  lg:w-[75%];
+}
+.calculate-button:hover,
+.calculate-button:active {
+  @apply bg-lime/50;
+}
+.input-wrapper:has(input[type="number"]:focus) .input-prefix,
+.input-wrapper:has(input[type="number"]:focus) .input-suffix {
+  @apply bg-lime;
+}
+.input-error {
+  @apply border-red;
+}
+.form-error {
+  @apply font-medium text-14 text-red h-0;
+}
+.input-wrapper:has(input[class="input-error"]) .input-prefix,
+.input-wrapper:has(input[class="input-error"]) .input-suffix {
+  @apply bg-red text-white;
+}
+
+/* Result panel */
+.results-panel {
+  @apply bg-slate-900
+  px-24 py-32
+  md:p-40
+  lg:flex lg:rounded-bl-80;
+
+  h2 {
+    @apply font-bold text-24 leading-125 text-white;
+  }
+  p {
+    @apply font-medium text-slate-300;
+  }
+}
+
+.results-empty {
+  @apply text-center flex flex-col items-center justify-center gap-y-16;
+
+  .results-illustration {
+    @apply max-w-[12rem] max-h-[12rem];
+  }
+
+  p {
+    @apply font-medium text-slate-300;
+  }
+}
+
+.results-calculated {
+  @apply flex flex-col items-start text-start;
+
+  h2 + p {
+    @apply mt-16;
+  }
+  .results-summary {
+    @apply bg-black/25 rounded-8 border-t-4 border-lime
+    w-full mt-24 px-16 py-24
+    md:mt-40;
+  }
+  .monthly-repayment {
+    @apply font-bold text-40 text-lime
+    md:text-56;
+  }
+  .total-repayment {
+    @apply font-bold text-24 leading-125 text-white;
+  }
+  hr {
+    @apply border-none h-[.0625rem] bg-[#9ABED5]/25
+    mt-16 mb-16
+    md:mt-32 md:mb-32;
+  }
+}

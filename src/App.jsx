@@ -1,0 +1,339 @@
+import { useReducer } from "react";
+import "./App.css";
+import { calculateRepayments } from "./utils/calculateRepayment";
+import { validateFormData } from "./utils/validate";
+
+const initialData = {
+  formData: {
+    mortgage_amount: "",
+    mortgage_term: "",
+    interest_rate: "",
+    mortgage_type: "",
+  },
+  errors: {
+    mortgage_amount: false,
+    mortgage_term: false,
+    interest_rate: false,
+    mortgage_type: false,
+  },
+  results: null,
+};
+
+const formReducer = (state, action) => {
+  const { formData } = state;
+  const { type, payload } = action;
+  if (type === "SET_FORMDATA") {
+    return {
+      ...state,
+      formData: {
+        ...state.formData,
+        [payload.key]: payload.inputValue,
+      },
+    };
+  }
+
+  if (type === "SET_ERRORS") {
+    const nextState = { ...state };
+    if (nextState.formData[payload.key] === "")
+      nextState.errors[payload.key] = true;
+    else nextState.errors[payload.key] = false;
+    return nextState;
+  }
+
+  if (type === "SUBMIT") {
+    if (validateFormData(formData)) {
+      // setResults(calculateRepayments(formData));
+      const nextState = { ...state };
+      nextState.results = calculateRepayments(formData);
+      return nextState;
+    } else {
+      const nextState = { ...state };
+      const errorsToSet = {
+        mortgage_amount: false,
+        mortgage_term: false,
+        interest_rate: false,
+        mortgage_type: false,
+      };
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value.toString().trim() === "") errorsToSet[key] = true;
+      });
+      nextState.errors = errorsToSet;
+      return nextState;
+    }
+  }
+
+  if (type === "RESET") {
+    return initialData;
+  }
+
+  return state;
+};
+
+const App = () => {
+  const [data, dispatch] = useReducer(formReducer, initialData);
+  const { formData, errors, results } = data;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: "SUBMIT" });
+  };
+
+  const handleChange = (e, key) => {
+    const inputValue = e.target.value;
+    dispatch({ type: "SET_FORMDATA", payload: { inputValue, key } });
+  };
+
+  const handleBlur = (key) => {
+    dispatch({ type: "SET_ERRORS", payload: { key } });
+  };
+
+  const handleReset = () => {
+    dispatch({ type: "RESET" });
+  };
+
+  return (
+    <main className="mortgage-calculator">
+      <section className="calculator-card" aria-labelledby="calculator-title">
+        <div className="calculator-form-wrapper">
+          <header className="calculator-header">
+            <h1 id="calculator-title">Mortgage Calculator</h1>
+
+            <button
+              type="reset"
+              className="clear-button"
+              form="mortgage-form"
+              onClick={handleReset}
+            >
+              Clear All
+            </button>
+          </header>
+
+          <form
+            id="mortgage-form"
+            className="mortgage-form"
+            onSubmit={handleSubmit}
+          >
+            <div className="form-field">
+              <label htmlFor="mortgage-amount">Mortgage Amount</label>
+
+              <div className="input-wrapper">
+                <span className="input-prefix" aria-hidden="true">
+                  £
+                </span>
+
+                <input
+                  id="mortgage-amount"
+                  className={`${errors.mortgage_amount ? "input-error" : ""}`}
+                  name="mortgageAmount"
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="0.01"
+                  autoComplete="off"
+                  aria-describedby="mortgage-amount-error"
+                  value={formData.mortgage_amount}
+                  onChange={(e) => handleChange(e, "mortgage_amount")}
+                  onBlur={() => handleBlur("mortgage_amount")}
+                />
+              </div>
+
+              <p
+                id="mortgage-amount-error"
+                className={`form-error ${errors.mortgage_amount ? "" : "hidden"}`}
+                aria-live="polite"
+              >
+                This field is required
+              </p>
+            </div>
+
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="mortgage-term">Mortgage Term</label>
+
+                <div className="input-wrapper">
+                  <input
+                    id="mortgage-term"
+                    className={`${errors.mortgage_term ? "input-error" : ""}`}
+                    name="mortgageTerm"
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    step="1"
+                    autoComplete="off"
+                    aria-describedby="mortgage-term-error"
+                    value={formData.mortgage_term}
+                    onChange={(e) => handleChange(e, "mortgage_term")}
+                    onBlur={() => handleBlur("mortgage_term")}
+                  />
+
+                  <span className="input-suffix" aria-hidden="true">
+                    years
+                  </span>
+                </div>
+
+                <p
+                  id="mortgage-term-error"
+                  className={`form-error ${errors.mortgage_term ? "" : "hidden"}`}
+                  aria-live="polite"
+                >
+                  This field is required
+                </p>
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="interest-rate">Interest Rate</label>
+
+                <div className="input-wrapper">
+                  <input
+                    id="interest-rate"
+                    className={`${errors.interest_rate ? "input-error" : ""}`}
+                    name="interestRate"
+                    type="number"
+                    inputMode="decimal"
+                    min="0"
+                    step="0.01"
+                    autoComplete="off"
+                    aria-describedby="interest-rate-error"
+                    value={formData.interest_rate}
+                    onChange={(e) => handleChange(e, "interest_rate")}
+                    onBlur={() => handleBlur("interest_rate")}
+                  />
+
+                  <span className="input-suffix" aria-hidden="true">
+                    %
+                  </span>
+                </div>
+
+                <p
+                  id="interest-rate-error"
+                  className={`form-error ${errors.interest_rate ? "" : "hidden"}`}
+                  aria-live="polite"
+                >
+                  This field is required
+                </p>
+              </div>
+            </div>
+
+            <fieldset
+              className="form-field mortgage-type"
+              aria-invalid={errors.mortgage_type}
+              aria-describedby="mortgage-type-error"
+            >
+              <legend className="mortgage-type-legend">Mortgage Type</legend>
+
+              <div className="radio-option">
+                <input
+                  id="repayment"
+                  name="mortgageType"
+                  type="radio"
+                  value="repayment"
+                  onClick={(e) => handleChange(e, "mortgage_type")}
+                />
+
+                <label htmlFor="repayment">Repayment</label>
+              </div>
+
+              <div className="radio-option">
+                <input
+                  id="interest-only"
+                  name="mortgageType"
+                  type="radio"
+                  value="interest-only"
+                  onClick={(e) => handleChange(e, "mortgage_type")}
+                />
+
+                <label htmlFor="interest-only">Interest Only</label>
+              </div>
+
+              <p
+                id="mortgage-type-error"
+                className={`form-error ${errors.mortgage_type ? "" : "hidden"}`}
+                aria-live="polite"
+              >
+                Please select a mortgage type
+              </p>
+            </fieldset>
+
+            <button type="submit" className="calculate-button">
+              <svg
+                className="calculator-icon"
+                aria-hidden="true"
+                width="17"
+                height="20"
+                viewBox="0 0 17 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15 0H1.5C1.10218 0 0.720644 0.158035 0.43934 0.43934C0.158035 0.720644 0 1.10218 0 1.5V18C0 18.3978 0.158035 18.7794 0.43934 19.0607C0.720644 19.342 1.10218 19.5 1.5 19.5H15C15.3978 19.5 15.7794 19.342 16.0607 19.0607C16.342 18.7794 16.5 18.3978 16.5 18V1.5C16.5 1.10218 16.342 0.720644 16.0607 0.43934C15.7794 0.158035 15.3978 0 15 0ZM4.5 16.5C4.2775 16.5 4.05999 16.434 3.87498 16.3104C3.68998 16.1868 3.54578 16.0111 3.46064 15.8055C3.37549 15.6 3.35321 15.3738 3.39662 15.1555C3.44002 14.9373 3.54717 14.7368 3.7045 14.5795C3.86184 14.4222 4.06229 14.315 4.28052 14.2716C4.49875 14.2282 4.72495 14.2505 4.93052 14.3356C5.13609 14.4208 5.31179 14.565 5.4354 14.75C5.55902 14.935 5.625 15.1525 5.625 15.375C5.625 15.6734 5.50647 15.9595 5.2955 16.1705C5.08452 16.3815 4.79837 16.5 4.5 16.5ZM4.5 12.75C4.2775 12.75 4.05999 12.684 3.87498 12.5604C3.68998 12.4368 3.54578 12.2611 3.46064 12.0555C3.37549 11.85 3.35321 11.6238 3.39662 11.4055C3.44002 11.1873 3.54717 10.9868 3.7045 10.8295C3.86184 10.6722 4.06229 10.565 4.28052 10.5216C4.49875 10.4782 4.72495 10.5005 4.93052 10.5856C5.13609 10.6708 5.31179 10.815 5.4354 11C5.55902 11.185 5.625 11.4025 5.625 11.625C5.625 11.9234 5.50647 12.2095 5.2955 12.4205C5.08452 12.6315 4.79837 12.75 4.5 12.75ZM8.25 16.5C8.0275 16.5 7.80999 16.434 7.62498 16.3104C7.43998 16.1868 7.29578 16.0111 7.21064 15.8055C7.12549 15.6 7.10321 15.3738 7.14662 15.1555C7.19002 14.9373 7.29717 14.7368 7.4545 14.5795C7.61184 14.4222 7.81229 14.315 8.03052 14.2716C8.24875 14.2282 8.47495 14.2505 8.68052 14.3356C8.88608 14.4208 9.06179 14.565 9.1854 14.75C9.30902 14.935 9.375 15.1525 9.375 15.375C9.375 15.6734 9.25647 15.9595 9.04549 16.1705C8.83452 16.3815 8.54837 16.5 8.25 16.5ZM8.25 12.75C8.0275 12.75 7.80999 12.684 7.62498 12.5604C7.43998 12.4368 7.29578 12.2611 7.21064 12.0555C7.12549 11.85 7.10321 11.6238 7.14662 11.4055C7.19002 11.1873 7.29717 10.9868 7.4545 10.8295C7.61184 10.6722 7.81229 10.565 8.03052 10.5216C8.24875 10.4782 8.47495 10.5005 8.68052 10.5856C8.88608 10.6708 9.06179 10.815 9.1854 11C9.30902 11.185 9.375 11.4025 9.375 11.625C9.375 11.9234 9.25647 12.2095 9.04549 12.4205C8.83452 12.6315 8.54837 12.75 8.25 12.75ZM12 16.5C11.7775 16.5 11.56 16.434 11.375 16.3104C11.19 16.1868 11.0458 16.0111 10.9606 15.8055C10.8755 15.6 10.8532 15.3738 10.8966 15.1555C10.94 14.9373 11.0472 14.7368 11.2045 14.5795C11.3618 14.4222 11.5623 14.315 11.7805 14.2716C11.9988 14.2282 12.225 14.2505 12.4305 14.3356C12.6361 14.4208 12.8118 14.565 12.9354 14.75C13.059 14.935 13.125 15.1525 13.125 15.375C13.125 15.6734 13.0065 15.9595 12.7955 16.1705C12.5845 16.3815 12.2984 16.5 12 16.5ZM12 12.75C11.7775 12.75 11.56 12.684 11.375 12.5604C11.19 12.4368 11.0458 12.2611 10.9606 12.0555C10.8755 11.85 10.8532 11.6238 10.8966 11.4055C10.94 11.1873 11.0472 10.9868 11.2045 10.8295C11.3618 10.6722 11.5623 10.565 11.7805 10.5216C11.9988 10.4782 12.225 10.5005 12.4305 10.5856C12.6361 10.6708 12.8118 10.815 12.9354 11C13.059 11.185 13.125 11.4025 13.125 11.625C13.125 11.9234 13.0065 12.2095 12.7955 12.4205C12.5845 12.6315 12.2984 12.75 12 12.75ZM13.5 7.5C13.5 7.69891 13.421 7.88968 13.2803 8.03033C13.1397 8.17098 12.9489 8.25 12.75 8.25H3.75C3.55109 8.25 3.36032 8.17098 3.21967 8.03033C3.07902 7.88968 3 7.69891 3 7.5V3.75C3 3.55109 3.07902 3.36032 3.21967 3.21967C3.36032 3.07902 3.55109 3 3.75 3H12.75C12.9489 3 13.1397 3.07902 13.2803 3.21967C13.421 3.36032 13.5 3.55109 13.5 3.75V7.5Z"
+                  fill="#133041"
+                />
+              </svg>
+
+              <span>Calculate Repayments</span>
+            </button>
+          </form>
+        </div>
+
+        <section
+          className="results-panel"
+          aria-labelledby="results-title"
+          aria-live="polite"
+        >
+          {!results && (
+            <div className="results-empty">
+              <img
+                src="./illustration-empty.svg"
+                alt=""
+                className="results-illustration"
+              />
+
+              <h2 id="results-title">Results shown here</h2>
+
+              <p>
+                Complete the form and click “calculate repayments” to see what
+                your monthly repayments would be.
+              </p>
+            </div>
+          )}
+
+          {results && (
+            <div className="results-calculated">
+              <h2 id="results-calculated-title">Your results</h2>
+
+              <p>
+                Your results are shown below based on the information you
+                provided. To adjust the results, edit the form and click
+                “calculate repayments” again.
+              </p>
+
+              <div className="results-summary">
+                <p>Your monthly repayments</p>
+                <output
+                  id="monthly-repayment"
+                  className="monthly-repayment"
+                  name="monthlyRepayment"
+                  htmlFor="mortgage-amount mortgage-term interest-rate"
+                >
+                  £{results.monthly}
+                </output>
+                <hr />
+                <p className="mb-8">Total you'll repay over the term</p>
+                <output
+                  id="total-repayment"
+                  className="total-repayment"
+                  name="totalRepayment"
+                  htmlFor="mortgage-amount mortgage-term interest-rate"
+                >
+                  £{results.total}
+                </output>
+              </div>
+            </div>
+          )}
+        </section>
+      </section>
+    </main>
+  );
+};
+
+export default App;
