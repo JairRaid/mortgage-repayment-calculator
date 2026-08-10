@@ -94,9 +94,6 @@
   input[type="number"]:focus {
     @apply outline-none border-lime;
   }
-  input[type="number"]:focus {
-    @apply outline-none border-lime;
-  }
 }
 
 @utility my-transition {
